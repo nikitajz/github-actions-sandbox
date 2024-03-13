@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: |
-          echo "The PR was merged. Event ${{ toJSON(github.event) }} was merged"
+          echo "The PR was merged. Event ${{ toJSON(github.event) }}"
       - run: |
-          echo "Env ${{ toJSON(env) }}"
+          echo "Env: ${{ toJSON(env) }}"
 
