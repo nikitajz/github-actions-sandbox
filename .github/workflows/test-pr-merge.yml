@@ -1,16 +1,35 @@
 on:
-  pull_request_target:
+  pull_request:
     types:
       - closed
-    # branches:
-    #   - 'releases/**'
+    branches:
+      - main
 
 jobs:
-  if_merged:
+  build_n_release:
     if: ${{ github.event.pull_request.merged == true }}
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.merge_commit_sha }}
+          fetch-depth: '0'
+
       - run: |
-          echo "The PR was merged. Event ${{ toJSON(github.event) }} was merged"
+          echo "Merge commit: ${{ github.event.pull_request.merge_commit_sha }}. Base branch: ${{ github.event.base.ref}} Merged branch: ${{ github.event.head.ref}}"
+      - run: | 
+          echo "${{ github.event.head.ref:8 }}" >> "$GITHUB_ENV"
       - run: |
-          echo "Env ${{ toJSON(env) }}"
+          echo "Tag version: ${{ github.event.head.ref:8 }}"
+
+      - name: Bump version and push tag
+        uses: anothrNick/github-tag-action@1.67.0 # Don't use @master or @v1 unless you're happy to test the latest version
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # if you don't want to set write permissions use a PAT token
+          CUSTOM_TAG: ${{ github.event.head.ref:8 }}
+          PRERELEASE: true
+
+      - run: |
+        echo "The tag was created: $GITHUB_ENV"
