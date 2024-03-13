@@ -32,4 +32,4 @@ jobs:
           PRERELEASE: true
 
       - run: |
-        echo "The tag was created: $GITHUB_ENV"
+          echo "The tag was created: $GITHUB_ENV"
