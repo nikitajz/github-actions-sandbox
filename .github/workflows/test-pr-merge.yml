@@ -18,9 +18,9 @@ jobs:
           fetch-depth: '0'
 
       - run: |
-          echo "Merge commit: ${{ github.event.pull_request.merge_commit_sha }}. Base branch: ${{ github.event.base.ref}} Merged branch: ${{ github.event.head.ref}}"
+          echo "Merge commit: ${{ github.event.pull_request.merge_commit_sha }}. Base branch: ${{ github.base_ref}} Merged branch: ${{ github.head_ref}}"
       - run: | 
-          echo "${{ github.event.head.ref }}" | sed 's/release\//TAG_VERSION=/'>> "$GITHUB_ENV"
+          echo "${{ github.head_ref }}" | sed 's/release\//TAG_VERSION=/'>> "$GITHUB_ENV"
       - run: |
           echo "Tag version: [$TAG_VERSION]"
 
