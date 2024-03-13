@@ -28,7 +28,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # if you don't want to set write permissions use a PAT token
           CUSTOM_TAG: ${{ env.TAG_VERSION }}
-          PRERELEASE: true
 
       - run: |
           echo "The tag was created: $GITHUB_ENV"
