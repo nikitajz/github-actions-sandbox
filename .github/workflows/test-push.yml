@@ -1,9 +1,7 @@
 on:
-  pull_request_target:
-    types:
-      - closed
-    # branches:
-    #   - 'releases/**'
+  push:
+    branches:
+      - 'main'
 
 jobs:
   if_merged:
@@ -14,3 +12,4 @@ jobs:
           echo "The PR was merged. Event ${{ toJSON(github.event) }} was merged"
       - run: |
           echo "Env ${{ toJSON(env) }}"
+
