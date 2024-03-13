@@ -25,6 +25,8 @@ jobs:
 
       - name: Create and push tag
         run: |
+          git config user.name "GitHub Actions Tag Bot"
+          git config user.email "github-actions-tag-bot@github.com"
           git tag -a ${{ env.TAG_VERSION }} -m "Release ${{ env.TAG_VERSION }}"
           git push origin ${{ env.TAG_VERSION }}
 
