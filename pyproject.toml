@@ -14,7 +14,7 @@ requires = [
 build-backend = "hatchling.build"
 
 [tool.hatch.version]
-path = "src/pkg/__init__.py"
+path = "src/pkg/__version__.py"
 validate-bump = true
 scheme = "semver"
 
