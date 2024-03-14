@@ -3,8 +3,10 @@ name: test all
 on:
     pull_request:
         branches:
-            - 'release/**'
+            - 'main'
         types: [opened, reopened]
+        paths:
+            - '**/__version__.py'        
 
 concurrency:
   group: test-${{ github.head_ref }}
@@ -16,6 +18,7 @@ env:
 
 jobs:
   run:
+    if:  startsWith(github.head_ref, 'release/')
     name: Python ${{ matrix.python-version }} on ${{ startsWith(matrix.os, 'macos-') && 'macOS' || startsWith(matrix.os, 'windows-') && 'Windows' || 'Linux' }}
     runs-on: ${{ matrix.os }}
     strategy:
