@@ -1,4 +1,4 @@
-from src.my_ipaddress import get_my_ip_address
+from src.pkg.my_ipaddress import get_my_ip_address
 
 
 def test_get_my_ip_address():
