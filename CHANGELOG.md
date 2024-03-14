@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.0+dev.7] - 2024-03-14
+
+### 🚀 Features
+
+- New feature 126
+
 ## [0.0.0+dev.6] - 2024-03-14
 
 ### 🐛 Bug Fixes
