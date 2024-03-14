@@ -6,7 +6,8 @@ on:
             - 'main'
         types: [opened, reopened]
         paths:
-            - '**/__version__.py'
+            - '**/__init__.py'
+            - '**/*version*.py'
             - '**/CHANGELOG.md'
 
 concurrency:

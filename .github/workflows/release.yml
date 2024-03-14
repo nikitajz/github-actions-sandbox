@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  tag_release:
+  tag-release:
     if: ${{ github.event.pull_request.merged == true }}
     runs-on: ubuntu-latest
     permissions:
@@ -43,7 +43,7 @@ jobs:
   
   generate-changelog:
     name: Generate changelog
-    needs: tag_release
+    needs: tag-release
     runs-on: ubuntu-22.04
     outputs:
       release_body: ${{ steps.git-cliff.outputs.content }}
@@ -57,33 +57,26 @@ jobs:
         id: git-cliff
         with:
           config: cliff.toml
-          args: -v --latest --no-exec --tag ${{ steps.tag_release.outputs.tag_version }} --github-repo ${{ github.repository }}
+          args: -v --latest --no-exec --tag ${{ steps.tag-release.outputs.tag_version }} --github-repo ${{ github.repository }}
         env:
           OUTPUT: CHANGES.md
 
   publish-binaries:
     name: Publish binaries
     needs: 
-      - tag_release
+      - tag-release
       - generate-changelog
+    env:
+      release_version: ${{ needs.tag-release.outputs.tag_version }}
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Get latest tag
-        run: |
-          export RELEASE_VERSION=$(git tag --sort=-creatordate | head -n 1)
-          echo "RELEASE_VERSION=$RELEASE_VERSION" >> "$GITHUB_ENV"
-      - name: print vars
-        run: env
-      - name: Outputs
-        run: echo ${{ needs.tag_release.outputs.tag_version }}
       - name: Install hatchling
         run: pip install --upgrade hatchling build
       - name: Packaging
         run: |
-          echo "Packaging version $RELEASE_VERSION"
-          # package the binaries
+          echo "Packaging version ${{ env.release_version }}"
           python -m build
       - name: Publish to GitHub (pre-release)
         uses: svenstaro/upload-release-action@v2
@@ -92,9 +85,9 @@ jobs:
           file: dist/*
           file_glob: true
           overwrite: true
-          tag: ${{ needs.tag_release.outputs.tag_version }}
-          release_name: "Release: ${{ needs.tag_release.outputs.tag_version }}"
-          prerelease: ${{ contains(needs.tag_release.outputs.tag_version, '-') || contains(needs.tag_release.outputs.tag_version, '+') }}
+          tag: ${{ env.release_version}}
+          release_name: "Release: ${{ env.release_version}}"
+          prerelease: ${{ contains(env.release_version, '-') || contains(env.release_version, '+') }}
           promote: false
           draft: false
           body: ${{ needs.generate-changelog.outputs.release_body }}
