@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.1-alpha.1] - 2024-03-14
+
+### 🚜 Refactor
+
+- *(core)* Define URL outside the function
+
 ## [0.0.0+dev.7] - 2024-03-14
 
 ### 🚀 Features
