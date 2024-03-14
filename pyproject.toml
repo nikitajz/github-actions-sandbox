@@ -32,7 +32,7 @@ extra-dependencies = [
 ]
 
 [tool.hatch.envs.default.scripts]
-release = """git checkout main && git pull && \
+release = """git pull origin main && \
              git fetch --tags --force && \   
              hatch version {args:.} && \
              git cliff --tag $(hatch version) -o CHANGELOG.md && \
