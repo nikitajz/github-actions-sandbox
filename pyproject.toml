@@ -48,7 +48,7 @@ release = """git pull origin main && \
              hatch version {args:.} && \
              git cliff --tag $(hatch version) -o CHANGELOG.md && \
              git checkout -b release/v$(hatch version) && \
-             git add src/pkg/__init__.py CHANGELOG.md && \
+             git add src/pkg/__init__.py src/pkg/__version__.py CHANGELOG.md && \
              git commit -m "chore(release): v$(hatch version)" && \
              git push"""
 
