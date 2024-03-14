@@ -38,6 +38,9 @@ jobs:
           echo "The last three tags are:"
           git tag --sort=-creatordate | head -n 3
 
+      - name: Print tag version
+        run: echo ${{ env.TAG_VERSION }}
+  
   generate-changelog:
     name: Generate changelog
     needs: tag_release
@@ -60,7 +63,9 @@ jobs:
 
   publish-binaries:
     name: Publish binaries
-    needs: generate-changelog
+    needs: 
+      - tag_release
+      - generate-changelog
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout
@@ -70,7 +75,9 @@ jobs:
           export RELEASE_VERSION=$(git tag --sort=-creatordate | head -n 1)
           echo "RELEASE_VERSION=$RELEASE_VERSION" >> "$GITHUB_ENV"
       - name: print vars
-        run: echo ${{ env }}
+        run: env
+      - name: Outputs
+        run: echo ${{ needs.tag_release.outputs.tag_version }}
       - name: Install hatchling
         run: pip install --upgrade hatchling build
       - name: Packaging
@@ -86,8 +93,8 @@ jobs:
           file: dist/*
           file_glob: true
           overwrite: true
-          tag: ${{ steps.tag_release.outputs.tag_version }}
-          release_name: "Release: ${{ steps.tag_release.outputs.tag_version }}"
+          tag: ${{ needs.tag_release.outputs.tag_version }}
+          release_name: "Release: ${{ needs.tag_release.outputs.tag_version }}"
           prerelease: true
           promote: false
           draft: false
