@@ -86,7 +86,6 @@ jobs:
           # package the binaries
           python -m build
       - name: Publish to GitHub (pre-release)
-#        if: ${{ contains(github.ref, '-') }}
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
@@ -95,7 +94,7 @@ jobs:
           overwrite: true
           tag: ${{ needs.tag_release.outputs.tag_version }}
           release_name: "Release: ${{ needs.tag_release.outputs.tag_version }}"
-          prerelease: true
+          prerelease: ${{ contains(needs.tag_release.outputs.tag_version, '-') || contains(needs.tag_release.outputs.tag_version, '+') }}
           promote: false
           draft: false
           body: ${{ needs.generate-changelog.outputs.release_body }}
