@@ -7,11 +7,16 @@ dependencies = [
 ]
 
 [build-system]
-requires = ["hatchling"]
+requires = [
+    "hatchling",
+    "hatch-semver",
+]
 build-backend = "hatchling.build"
 
 [tool.hatch.version]
 path = "src/pkg/__init__.py"
+validate-bump = true
+scheme = "semver"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/pkg"]
@@ -31,6 +36,6 @@ release = """git checkout main && git pull && \
              hatch version {args:.} && \
              git cliff -o CHANGELOG.md && \
              git checkout -b release/v$(hatch version) && \
-             git add src/__init__.py CHANGELOG.md && \
+             git add src/pkg/__init__.py CHANGELOG.md && \
              git commit -m "chore(release): v$(hatch version)" && \
              git push"""
