@@ -32,6 +32,17 @@ extra-dependencies = [
 ]
 
 [tool.hatch.envs.default.scripts]
+test-cov = "pytest --cov-config=pyproject.toml --cov=pkg --cov=tests"
+test = "test-cov --no-cov"
+cov-report = [
+    "- coverage combine",
+    "coverage report",
+]
+cov = [
+    "test-cov",
+    "cov-report",
+]
+
 release = """git pull origin main && \
              git fetch --tags --force && \   
              hatch version {args:.} && \
@@ -40,3 +51,4 @@ release = """git pull origin main && \
              git add src/pkg/__init__.py CHANGELOG.md && \
              git commit -m "chore(release): v$(hatch version)" && \
              git push"""
+

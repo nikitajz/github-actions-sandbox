@@ -4,6 +4,7 @@ on:
     pull_request:
         branches:
             - 'release/**'
+        types: [opened, reopened]
 
 concurrency:
   group: test-${{ github.head_ref }}
