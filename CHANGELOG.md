@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.0+dev.6] - 2024-03-14
+
+### 🐛 Bug Fixes
+
+- Release tags
+
+## [0.0.0+dev.5] - 2024-03-14
+
 ## [0.0.0+dev.4] - 2024-03-14
 
 ### 🚀 Features
