@@ -7,5 +7,5 @@ def get_my_ip_address():
 
 
 def new_func():
-    print("New cool func")
+    print("New cool func v1")
 
