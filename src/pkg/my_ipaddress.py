@@ -1,5 +1,7 @@
 import requests
+URL = "https://api.ipify.org"
 
 
 def get_my_ip_address():
-    return requests.get("https://api.ipify.org").text
+    return requests.get(URL).text
+
