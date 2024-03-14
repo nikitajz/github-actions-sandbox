@@ -1,2 +1,2 @@
-New Feature ! #125
+New Feature !!! Prerelease #126
 Once the file is merged through PR it triggers GH Action workflow
