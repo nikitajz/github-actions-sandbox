@@ -11,6 +11,8 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+    outputs:
+      tag_version: ${{ env.TAG_VERSION }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -52,7 +54,7 @@ jobs:
         id: git-cliff
         with:
           config: cliff.toml
-          args: -v --latest --no-exec --github-repo ${{ github.repository }}
+          args: -v --latest --no-exec --tag ${{ steps.tag_release.outputs.tag_version }} --github-repo ${{ github.repository }}
         env:
           OUTPUT: CHANGES.md
 
@@ -84,8 +86,8 @@ jobs:
           file: dist/*
           file_glob: true
           overwrite: true
-          tag: ${{ github.ref }}
-          release_name: "Pre-release v${{ env.RELEASE_VERSION }}"
+          tag: ${{ steps.tag_release.outputs.tag_version }}
+          release_name: "Release: ${{ steps.tag_release.outputs.tag_version }}"
           prerelease: true
           promote: false
           draft: false
